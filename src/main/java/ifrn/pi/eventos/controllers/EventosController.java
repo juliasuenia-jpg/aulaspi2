@@ -1,12 +1,18 @@
 package ifrn.pi.eventos.controllers;
 
 import java.util.List;
+<<<<<<< HEAD
 import java.util.Optional;
+=======
+>>>>>>> origin/main
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+<<<<<<< HEAD
 import org.springframework.web.bind.annotation.PathVariable;
+=======
+>>>>>>> origin/main
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
@@ -28,6 +34,10 @@ public class EventosController {
 
 	@PostMapping
 	public String adicionar(Evento evento) {
+<<<<<<< HEAD
+=======
+
+>>>>>>> origin/main
 		System.out.println(evento);
 		er.save(evento);
 
@@ -40,6 +50,7 @@ public class EventosController {
 		ModelAndView mv = new ModelAndView("eventos/lista");
 		mv.addObject("eventos", eventos);
 		return mv;
+<<<<<<< HEAD
 	}
 
 	@GetMapping("/{id}")
@@ -57,3 +68,9 @@ public class EventosController {
 		return md;
 	}
 }
+=======
+
+	}
+
+}
+>>>>>>> origin/main
