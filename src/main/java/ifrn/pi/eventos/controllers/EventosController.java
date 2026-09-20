@@ -3,7 +3,6 @@ package ifrn.pi.eventos.controllers;
 import java.util.List;
 import java.util.Optional;
 
-import ifrn.pi.eventos.models.Convidado;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import ifrn.pi.eventos.models.Convidado;
 import ifrn.pi.eventos.models.Evento;
 import ifrn.pi.eventos.repositories.ConvidadoRepository;
 import ifrn.pi.eventos.repositories.EventosRepository;
@@ -26,30 +26,37 @@ public class EventosController {
     @Autowired
     private ConvidadoRepository cr;
 
+    // Formulário para adicionar evento
     @GetMapping("/form")
     public String form() {
         return "eventos/formEvento";
     }
 
+    // Salvar evento
     @PostMapping
     public String adicionar(Evento evento) {
+
         System.out.println(evento);
+
         er.save(evento);
 
         return "eventos/evento-adicionado";
     }
 
+    // Listar eventos
     @GetMapping
     public ModelAndView listar() {
 
         List<Evento> eventos = er.findAll();
 
         ModelAndView mv = new ModelAndView("eventos/lista");
+
         mv.addObject("eventos", eventos);
 
         return mv;
     }
 
+    // Detalhes do evento
     @GetMapping("/{id}")
     public ModelAndView detalhar(@PathVariable Long id) {
 
@@ -62,18 +69,20 @@ public class EventosController {
             return md;
         }
 
-        md.setViewName("eventos/detalhes");
-
         Evento evento = opt.get();
+
+        md.setViewName("eventos/detalhes");
 
         md.addObject("evento", evento);
 
         List<Convidado> convidados = cr.findByEvento(evento);
+
         md.addObject("convidados", convidados);
 
         return md;
     }
 
+    // Salvar convidado
     @PostMapping("/{idEvento}")
     public String salvarConvidado(
             @PathVariable Long idEvento,
@@ -94,19 +103,39 @@ public class EventosController {
 
         cr.save(convidado);
 
-        return "redirect:/eventos/{idEvento}";
+        return "redirect:/eventos/" + idEvento;
     }
 
+    // Apagar evento
     @GetMapping("/{id}/remover")
     public String apagarEvento(@PathVariable Long id) {
 
         Optional<Evento> opt = er.findById(id);
 
         if (opt.isPresent()) {
+
             Evento evento = opt.get();
+
             er.delete(evento);
         }
 
         return "redirect:/eventos";
+    }
+
+    // Apagar convidado
+    @GetMapping("/{idEvento}/convidado/{idConvidado}/remover")
+    public String apagarConvidado(
+            @PathVariable Long idEvento,
+            @PathVariable Long idConvidado) {
+
+        System.out.println("Apagando convidado: " + idConvidado);
+
+        Optional<Convidado> opt = cr.findById(idConvidado);
+
+        if (opt.isPresent()) {
+            cr.delete(opt.get());
+        }
+
+        return "redirect:/eventos/" + idEvento;
     }
 }
