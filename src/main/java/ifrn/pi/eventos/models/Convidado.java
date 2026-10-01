@@ -1,61 +1,62 @@
 package ifrn.pi.eventos.models;
 
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
+import jakarta.validation.constraints.NotBlank;
 
 @Entity
 public class Convidado {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
-	private String nome;
-	private String rg;
-	
-	@ManyToOne
-	private Evento evento;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-	public Long getId() {
-		return id;
-	}
+    @NotBlank(message = "O nome do convidado é obrigatório")
+    private String nome;
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+    @NotBlank(message = "O RG do convidado é obrigatório")
+    private String rg;
 
-	public String getNome() {
-		return nome;
-	}
+    @ManyToOne
+    private Evento evento;
 
-	public void setNome(String nome) {
-		this.nome = nome;
-	}
+    public Long getId() {
+        return id;
+    }
 
-	public String getRg() {
-		return rg;
-	}
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-	public void setRg(String rg) {
-		this.rg = rg;
-	}
+    public String getNome() {
+        return nome;
+    }
 
-	public Evento getEvento() {
-		return evento;
-	}
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
 
-	public void setEvento(Evento evento) {
-		this.evento = evento;
-	}
+    public String getRg() {
+        return rg;
+    }
 
-	@Override
-	public String toString() {
-		return "Convidado [id=" + id + ", nome=" + nome + ", rg=" + rg + ", evento=" + evento + "]";
-	}
-	
-	
-	
+    public void setRg(String rg) {
+        this.rg = rg;
+    }
+
+    public Evento getEvento() {
+        return evento;
+    }
+
+    public void setEvento(Evento evento) {
+        this.evento = evento;
+    }
+
+    @Override
+    public String toString() {
+        return "Convidado [id=" + id + ", nome=" + nome + ", rg=" + rg + ", evento=" + evento + "]";
+    }
 }
